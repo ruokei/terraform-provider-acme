@@ -1,31 +1,11 @@
-# Test all packages by default
-TEST ?= ./...
-
-ifeq ($(shell go env GOOS),darwin)
-SEDOPTS = -i ''
-else
-SEDOPTS = -i
-endif
-
-.PHONY: default
-default: build
-
-.PHONY: tools
-tools:
-	cd $(shell go env GOROOT) && go install github.com/hashicorp/go-bindata/go-bindata@latest && go install gotest.tools/gotestsum@latest
-
-.PHONY: proto
-proto:
-	cd proto/ && buf generate
-
-.PHONY: build
-build:
-	go install
-
 # The name of Terraform custom provider.
 CUSTOM_PROVIDER_NAME ?= terraform-provider-acme
 # The url of Terraform provider.
 CUSTOM_PROVIDER_URL ?= example.local/myklst/acme
+
+.PHONY: proto
+proto:
+	cd proto/ && buf generate
 
 .PHONY: install-local-custom-provider
 install-local-custom-provider:
