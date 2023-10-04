@@ -53,7 +53,7 @@ production endpoints, which can be found [here][lets-encrypt-endpoints].
 terraform {
   required_providers {
     acme = {
-      source  = "vancluever/acme"
+      source  = "myklst/acme"
       version = "~> 2.0"
     }
   }
