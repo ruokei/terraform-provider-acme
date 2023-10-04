@@ -1,7 +1,5 @@
 package dnsplugin
 
-//go:generate go run ../../build-support/generate-dns-providers go dns_provider_factory.go
-
 import (
 	"context"
 	"fmt"

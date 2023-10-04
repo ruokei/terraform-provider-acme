@@ -19,3 +19,7 @@ website][terraform-io] and the [GitHub project page][terraform-gh].
 
 This is a forked, reworked repository of Terraform ACME provider by vancluever to provide backoff retry functionalities.
 Documentation for this provider can be found at [Terraform ACME Provider](https://registry.terraform.io/providers/vancluever/acme/latest/docs)
+
+## Retryable Errors
+
+Add retryable errors under `./acme/errorlist.go` such as API limiting and throttling.
