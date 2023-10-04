@@ -1,7 +1,0 @@
-provider_installation {
-  dev_overrides {
-    "myklst/acme" = "/tmp/terraform-provider-acme"
-  }
-
-  direct {}
-}
