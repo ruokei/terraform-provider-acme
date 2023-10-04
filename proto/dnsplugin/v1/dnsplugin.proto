@@ -4,10 +4,10 @@ package dnsplugin.v1;
 
 import "google/protobuf/duration.proto";
 
-option go_package = "github.com/vancluever/terraform-provider-acme/proto/dnsplugin/v1";
+option go_package = "github.com/myklst/terraform-provider-acme/proto/dnsplugin/v1";
 
 // DNSProviderService is a protobuf wrapper for the acme DNS challenge API. This
-// is designed to be used to wrap an instance of DNS providers in 
+// is designed to be used to wrap an instance of DNS providers in
 service DNSProviderService {
   // Configure needs to be called to initialize the provider and set the
   // configuration.

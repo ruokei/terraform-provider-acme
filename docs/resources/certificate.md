@@ -403,7 +403,7 @@ whenever possible to generate certificates with `acme_certificate`. Only use the
 HTTP and TLS challenge types if you don't have access to do DNS challenges, and
 can ensure that you can direct traffic for all domains being authorized to the
 machine running Terraform, or the locations served by the
-`http_webroot_challenge`, `http_s3_challenge` and `http_memcached_challenge` types. 
+`http_webroot_challenge`, `http_s3_challenge` and `http_memcached_challenge` types.
 Additionally, these challenge types do not support wildcard domains. See the
 [Let's Encrypt page on challenge types](https://letsencrypt.org/docs/challenge-types/)
 for more details. These challenges have requirements that almost always exclude them from
@@ -430,7 +430,7 @@ You can work around this by doing the following:
   to grant escalated network privileges to either Terraform (`setcap
   'cap_net_bind_service=+eip' "$(which terraform)"`), or the provider (`setcap
   'cap_net_bind_service=+ep'
-  .terraform/providers/registry.terraform.io/vancluever/acme/VERSION/ARCH/terraform-provider-acme_vVERSION`).
+  .terraform/providers/registry.terraform.io/myklst/acme/VERSION/ARCH/terraform-provider-acme_vVERSION`).
   Both have drawbacks: granting capabilites to Terraform itself will mean that
   Terraform core and any provider launched by it will also have the capability,
   while capabilities granted to the provider will be lost every time the

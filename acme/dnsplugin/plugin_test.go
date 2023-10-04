@@ -8,7 +8,7 @@ import (
 
 	"github.com/go-acme/lego/v4/challenge"
 	"github.com/go-acme/lego/v4/providers/dns/route53"
-	dnspluginproto "github.com/vancluever/terraform-provider-acme/v2/proto/dnsplugin/v1"
+	dnspluginproto "github.com/myklst/terraform-provider-acme/v2/proto/dnsplugin/v1"
 )
 
 var _ = challenge.ProviderTimeout((*DnsProviderClient)(nil))

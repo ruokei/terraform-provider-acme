@@ -15,7 +15,7 @@ import (
 	"github.com/go-acme/lego/v4/providers/http/webroot"
 	"github.com/hashicorp/go-multierror"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/vancluever/terraform-provider-acme/v2/acme/dnsplugin"
+	"github.com/myklst/terraform-provider-acme/v2/acme/dnsplugin"
 )
 
 // setCertificateChallengeProviders sets all of the challenge providers in the

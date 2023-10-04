@@ -10,7 +10,7 @@ import (
 
 	"github.com/go-acme/lego/v4/challenge"
 	"github.com/hashicorp/go-plugin"
-	dnspluginproto "github.com/vancluever/terraform-provider-acme/v2/proto/dnsplugin/v1"
+	dnspluginproto "github.com/myklst/terraform-provider-acme/v2/proto/dnsplugin/v1"
 )
 
 // NewClient creates a new DNS provider instance by dispatching to itself via
