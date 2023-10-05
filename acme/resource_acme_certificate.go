@@ -373,14 +373,22 @@ func resourceACMECertificateRead(d *schema.ResourceData, meta interface{}) error
 			return err
 		}
 
-		srcCR, err := client.Certificate.Get(d.Get("certificate_url").(string), true)
+		var srcCR *certificate.Resource
+		getCert := func() error {
+			srcCR, err = client.Certificate.Get(d.Get("certificate_url").(string), true)
+			if err != nil {
+				if isAbleToRetry(err.Error()) {
+					return err
+				} else {
+					return backoff.Permanent(err)
+				}
+			}
+			return nil
+		}
+		reconnectBackoff := backoff.NewExponentialBackOff()
+		reconnectBackoff.MaxElapsedTime = DefaultMaxElapsedTime
+		err = backoff.Retry(getCert, reconnectBackoff)
 		if err != nil {
-			// There are probably some cases that we will want to just drop
-			// the resource if there's been an issue, but seeing as this is
-			// mainly being used to recover for a bug that will be gone in
-			// 1.3.2, this will probably be rare. If we start relying on
-			// this behavior on a more general level, we may need to
-			// investigate this more. Just error on everything for now.
 			return err
 		}
 
@@ -473,7 +481,21 @@ func resourceACMECertificateUpdate(d *schema.ResourceData, meta interface{}) err
 		return err
 	}
 
-	newCert, err := client.Certificate.Renew(*cert, true, d.Get("must_staple").(bool), d.Get("preferred_chain").(string))
+	var newCert *certificate.Resource
+	renewCert := func() error {
+		newCert, err = client.Certificate.Renew(*cert, true, d.Get("must_staple").(bool), d.Get("preferred_chain").(string))
+		if err != nil {
+			if isAbleToRetry(err.Error()) {
+				return err
+			} else {
+				return backoff.Permanent(err)
+			}
+		}
+		return nil
+	}
+	reconnectBackoff := backoff.NewExponentialBackOff()
+	reconnectBackoff.MaxElapsedTime = DefaultMaxElapsedTime
+	err = backoff.Retry(renewCert, reconnectBackoff)
 	if err != nil {
 		return err
 	}
