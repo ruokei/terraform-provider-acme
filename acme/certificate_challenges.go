@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/cenkalti/backoff"
 	"github.com/go-acme/lego/v4/challenge"
 	"github.com/go-acme/lego/v4/challenge/dns01"
 	"github.com/go-acme/lego/v4/challenge/http01"
@@ -48,7 +49,20 @@ func setCertificateChallengeProviders(client *lego.Client, d *schema.ResourceDat
 			}
 		}
 
-		if err := client.Challenge.SetDNS01Provider(dnsProvider, expandDNSChallengeOptions(d)...); err != nil {
+		setDns01Provider := func() error {
+			if err := client.Challenge.SetDNS01Provider(dnsProvider, expandDNSChallengeOptions(d)...); err != nil {
+				if isAbleToRetry(err.Error()) {
+					return err
+				} else {
+					return backoff.Permanent(err)
+				}
+			}
+			return nil
+		}
+		reconnectBackoff := backoff.NewExponentialBackOff()
+		reconnectBackoff.MaxElapsedTime = DefaultMaxElapsedTime
+		err = backoff.Retry(setDns01Provider, reconnectBackoff)
+		if err != nil {
 			return dnsCloser, err
 		}
 	}
@@ -61,7 +75,20 @@ func setCertificateChallengeProviders(client *lego.Client, d *schema.ResourceDat
 			httpServerProvider.SetProxyHeader(proxyHeader.(string))
 		}
 
-		if err := client.Challenge.SetHTTP01Provider(httpServerProvider); err != nil {
+		setHttp01Provider := func() error {
+			if err := client.Challenge.SetHTTP01Provider(httpServerProvider); err != nil {
+				if isAbleToRetry(err.Error()) {
+					return err
+				} else {
+					return backoff.Permanent(err)
+				}
+			}
+			return nil
+		}
+		reconnectBackoff := backoff.NewExponentialBackOff()
+		reconnectBackoff.MaxElapsedTime = DefaultMaxElapsedTime
+		err := backoff.Retry(setHttp01Provider, reconnectBackoff)
+		if err != nil {
 			return dnsCloser, err
 		}
 	}
@@ -75,7 +102,20 @@ func setCertificateChallengeProviders(client *lego.Client, d *schema.ResourceDat
 			return dnsCloser, err
 		}
 
-		if err := client.Challenge.SetHTTP01Provider(httpWebrootProvider); err != nil {
+		setHttp01Provider := func() error {
+			if err := client.Challenge.SetHTTP01Provider(httpWebrootProvider); err != nil {
+				if isAbleToRetry(err.Error()) {
+					return err
+				} else {
+					return backoff.Permanent(err)
+				}
+			}
+			return nil
+		}
+		reconnectBackoff := backoff.NewExponentialBackOff()
+		reconnectBackoff.MaxElapsedTime = DefaultMaxElapsedTime
+		err = backoff.Retry(setHttp01Provider, reconnectBackoff)
+		if err != nil {
 			return dnsCloser, err
 		}
 	}
@@ -89,7 +129,20 @@ func setCertificateChallengeProviders(client *lego.Client, d *schema.ResourceDat
 			return dnsCloser, err
 		}
 
-		if err := client.Challenge.SetHTTP01Provider(httpMemcachedProvider); err != nil {
+		setHttp01Provider := func() error {
+			if err := client.Challenge.SetHTTP01Provider(httpMemcachedProvider); err != nil {
+				if isAbleToRetry(err.Error()) {
+					return err
+				} else {
+					return backoff.Permanent(err)
+				}
+			}
+			return nil
+		}
+		reconnectBackoff := backoff.NewExponentialBackOff()
+		reconnectBackoff.MaxElapsedTime = DefaultMaxElapsedTime
+		err = backoff.Retry(setHttp01Provider, reconnectBackoff)
+		if err != nil {
 			return dnsCloser, err
 		}
 	}
@@ -103,7 +156,20 @@ func setCertificateChallengeProviders(client *lego.Client, d *schema.ResourceDat
 			return dnsCloser, err
 		}
 
-		if err := client.Challenge.SetHTTP01Provider(httpS3Provider); err != nil {
+		setHttp01Provider := func() error {
+			if err := client.Challenge.SetHTTP01Provider(httpS3Provider); err != nil {
+				if isAbleToRetry(err.Error()) {
+					return err
+				} else {
+					return backoff.Permanent(err)
+				}
+			}
+			return nil
+		}
+		reconnectBackoff := backoff.NewExponentialBackOff()
+		reconnectBackoff.MaxElapsedTime = DefaultMaxElapsedTime
+		err = backoff.Retry(setHttp01Provider, reconnectBackoff)
+		if err != nil {
 			return dnsCloser, err
 		}
 	}
@@ -113,7 +179,20 @@ func setCertificateChallengeProviders(client *lego.Client, d *schema.ResourceDat
 		tlsProvider := tlsalpn01.NewProviderServer(
 			"", strconv.Itoa(provider.([]interface{})[0].(map[string]interface{})["port"].(int)))
 
-		if err := client.Challenge.SetTLSALPN01Provider(tlsProvider); err != nil {
+		setTlsAlpn01Provider := func() error {
+			if err := client.Challenge.SetTLSALPN01Provider(tlsProvider); err != nil {
+				if isAbleToRetry(err.Error()) {
+					return err
+				} else {
+					return backoff.Permanent(err)
+				}
+			}
+			return nil
+		}
+		reconnectBackoff := backoff.NewExponentialBackOff()
+		reconnectBackoff.MaxElapsedTime = DefaultMaxElapsedTime
+		err := backoff.Retry(setTlsAlpn01Provider, reconnectBackoff)
+		if err != nil {
 			return dnsCloser, err
 		}
 	}
