@@ -1,8 +1,6 @@
 package acme
 
 import (
-	"time"
-
 	"github.com/cenkalti/backoff"
 	"github.com/go-acme/lego/v4/acme"
 	"github.com/go-acme/lego/v4/registration"
@@ -95,7 +93,7 @@ func resourceACMERegistrationCreate(d *schema.ResourceData, meta interface{}) er
 		return nil
 	}
 	reconnectBackoff := backoff.NewExponentialBackOff()
-	reconnectBackoff.MaxElapsedTime = 30 * time.Minute
+	reconnectBackoff.MaxElapsedTime = DefaultMaxElapsedTime
 	err = backoff.Retry(registerAccount, reconnectBackoff)
 	if err != nil {
 		return err
@@ -139,7 +137,7 @@ func resourceACMERegistrationDelete(d *schema.ResourceData, meta interface{}) er
 		return nil
 	}
 	reconnectBackoff := backoff.NewExponentialBackOff()
-	reconnectBackoff.MaxElapsedTime = 30 * time.Minute
+	reconnectBackoff.MaxElapsedTime = DefaultMaxElapsedTime
 	err = backoff.Retry(deleteRegistration, reconnectBackoff)
 	if err != nil {
 		return err

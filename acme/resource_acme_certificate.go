@@ -303,7 +303,7 @@ func resourceACMECertificateCreate(d *schema.ResourceData, meta interface{}) err
 			return nil
 		}
 		reconnectBackoff := backoff.NewExponentialBackOff()
-		reconnectBackoff.MaxElapsedTime = 30 * time.Minute
+		reconnectBackoff.MaxElapsedTime = DefaultMaxElapsedTime
 		err = backoff.Retry(obtainCertCSR, reconnectBackoff)
 		if err != nil {
 			return err
@@ -336,7 +336,7 @@ func resourceACMECertificateCreate(d *schema.ResourceData, meta interface{}) err
 			return nil
 		}
 		reconnectBackoff := backoff.NewExponentialBackOff()
-		reconnectBackoff.MaxElapsedTime = 30 * time.Minute
+		reconnectBackoff.MaxElapsedTime = DefaultMaxElapsedTime
 		err = backoff.Retry(obtainCert, reconnectBackoff)
 		if err != nil {
 			return err
@@ -512,7 +512,7 @@ func resourceACMECertificateDelete(d *schema.ResourceData, meta interface{}) err
 			return nil
 		}
 		reconnectBackoff := backoff.NewExponentialBackOff()
-		reconnectBackoff.MaxElapsedTime = 30 * time.Minute
+		reconnectBackoff.MaxElapsedTime = DefaultMaxElapsedTime
 		err = backoff.Retry(revokeCert, reconnectBackoff)
 		if err != nil {
 			return err

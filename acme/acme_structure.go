@@ -21,6 +21,10 @@ import (
 	"software.sslmate.com/src/go-pkcs12"
 )
 
+const (
+	DefaultMaxElapsedTime = 120 * time.Minute
+)
+
 // acmeUser implements acme.User.
 type acmeUser struct {
 
@@ -107,7 +111,7 @@ func expandACMEClient(d *schema.ResourceData, meta interface{}, loadReg bool) (*
 		return nil
 	}
 	reconnectBackoff := backoff.NewExponentialBackOff()
-	reconnectBackoff.MaxElapsedTime = 30 * time.Minute
+	reconnectBackoff.MaxElapsedTime = DefaultMaxElapsedTime
 	err = backoff.Retry(newClient, reconnectBackoff)
 	if err != nil {
 		return nil, nil, err
