@@ -10,7 +10,7 @@ const (
 	ZEROSSL_ERR_NEW_ORDER_TOO_MANY_REQUESTS     = "429 ::POST :: https://acme.zerossl.com/v2/DV90/newOrder"
 	ZEROSSL_ERR_ACCOUNT_TOO_MANY_REQUESTS       = "429 ::POST :: https://acme.zerossl.com/v2/DV90/account"
 	ZEROSSL_ERR_REVOKE_CERT_TOO_MANY_REQUESTS   = "429 ::POST :: https://acme.zerossl.com/v2/DV90/revokeCert"
-	ZEROSSL_ERR_CHALLENGE_TOO_MANY_REQUESTS     = "429 ::POST :: https://acme.zerossl.com/v2/DV90/chall/"
+	ZEROSSL_ERR_CHALLENGE_TOO_MANY_REQUESTS     = "429 ::POST :: https://acme.zerossl.com/v2/DV90/chall"
 	LETSENCRYPT_ERR_RATE_LIMITED                = "429 :: POST :: https://acme-staging-v02.api.letsencrypt.org/acme/new-acct"
 	ERR_TIME_LIMIT_EXCEEDED                     = "time limit exceeded"
 )
