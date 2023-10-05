@@ -58,6 +58,12 @@ func resourceACMERegistrationV1() *schema.Resource {
 				Computed: true,
 			},
 		},
+		Timeouts: &schema.ResourceTimeout{
+			Create: schema.DefaultTimeout(DefaultMaxElapsedTime),
+			Read:   schema.DefaultTimeout(DefaultMaxElapsedTime),
+			Update: schema.DefaultTimeout(DefaultMaxElapsedTime),
+			Delete: schema.DefaultTimeout(DefaultMaxElapsedTime),
+		},
 	}
 }
 
