@@ -14,6 +14,10 @@ on:
   push:
     tags:
       - 'v*'
+# Releases need permissions to read and write the repository contents.
+# GitHub considers creating releases and uploading assets as writing contents.
+permissions:
+  contents: write
 jobs:
   goreleaser:
     runs-on: ubuntu-latest
