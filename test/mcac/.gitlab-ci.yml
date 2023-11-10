@@ -1,0 +1,66 @@
+include:
+  - project: devops/cicd/gitlab-ci-common
+    ref: v0.15.13
+    file:
+      - pipeline/standard.gitlab-ci.yml
+      - credentials/main.gitlab-ci.yml
+  - project: devops/cicd/gitlab-ci-common-utils
+    ref: v0.1.2
+    file:
+      - main.gitlab-ci.yml
+
+stages:
+  - terraform:test
+  - git:tag
+  - pipeline:cleanup
+
+##################################################
+# terraform:test
+##################################################
+
+basic_test:
+  stage: terraform:test
+  extends:
+    - .aws_dev_terraform_remote_state_credential
+    - .gitlab_credential
+  variables:
+    VAULT_TOKEN: vault:login
+  before_script:
+    - !reference [.gitlab_login, script]
+    - !reference [.gcloud_init_credential, script]
+  script:
+    - gitlab_login "$GITLAB_TOKEN"
+    - gcloud_init_credential
+    - make terraform-test-basic
+  tags:
+    - devops-dev
+
+##################################################
+# git:tag
+##################################################
+
+git_tag:
+  stage: git:tag
+  extends:
+    - .gitlab_credential
+  before_script:
+    - !reference [.gitlab_create_tag, script]
+    - !reference [.git_version, script]
+  script:
+    - gitlab_create_tag "$GITLAB_TOKEN" "$(git_version)"
+
+##################################################
+# pipeline:cleanup
+##################################################
+
+pipeline_cleanup:
+  stage: pipeline:cleanup
+  extends:
+    - .gitlab_credential
+  before_script:
+    - !reference [.gitlab_cleanup_pipelines, script]
+  script:
+    - gitlab_cleanup_pipelines "$GITLAB_TOKEN"
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_TAG

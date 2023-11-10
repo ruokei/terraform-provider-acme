@@ -3,10 +3,6 @@ CUSTOM_PROVIDER_NAME ?= terraform-provider-acme
 # The url of Terraform provider.
 CUSTOM_PROVIDER_URL ?= example.local/myklst/acme
 
-.PHONY: proto
-proto:
-	cd proto/ && buf generate
-
 .PHONY: install-local-custom-provider
 install-local-custom-provider:
 	export PROVIDER_LOCAL_PATH='$(CUSTOM_PROVIDER_URL)'
