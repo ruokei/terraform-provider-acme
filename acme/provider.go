@@ -97,7 +97,7 @@ func (p *acmeProvider) Configure(ctx context.Context, req provider.ConfigureRequ
 		return
 	}
 
-	resp.ResourceData = serverUrl
+	resp.ResourceData = config.ServerUrl
 }
 
 func (p *acmeProvider) DataSources(_ context.Context) []func() datasource.DataSource {

@@ -32,19 +32,19 @@ resource "acme_registration" "reg" {
   }
 }
 
-resource "acme_certificate" "certificate" {
-  account_key_pem           = acme_registration.reg.account_key_pem
-  email_address             = "test@sige.la"
-  min_days_remaining        = 120
-  common_name               = "sige-test3.com"
-  subject_alternative_names = ["sige-test4.com"]
+# resource "acme_certificate" "certificate" {
+#   account_key_pem           = acme_registration.reg.account_key_pem
+#   email_address             = "test@sige.la"
+#   min_days_remaining        = 120
+#   common_name               = "sige-test3.com"
+#   subject_alternative_names = ["sige-test4.com"]
 
-  dns_challenge {
-    provider = "route53"
-    config = {
-      "AWS_REGION"            = "ap-southeast-1"
-      "AWS_ACCESS_KEY_ID"     = "AKIA6KOWV4HJUCYIMKWI"
-      "AWS_SECRET_ACCESS_KEY" = "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"
-    }
-  }
-}
+#   dns_challenge {
+#     provider = "route53"
+#     config = {
+#       "AWS_REGION"            = "ap-southeast-1"
+#       "AWS_ACCESS_KEY_ID"     = "AKIA6KOWV4HJUCYIMKWI"
+#       "AWS_SECRET_ACCESS_KEY" = "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"
+#     }
+#   }
+# }

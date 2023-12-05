@@ -106,7 +106,7 @@ func (r *acmeRegistrationResource) Configure(_ context.Context, req resource.Con
 	if req.ProviderData == nil {
 		return
 	}
-	r.ServerUrl = types.StringValue(req.ProviderData.(string))
+	r.ServerUrl = req.ProviderData.(types.String)
 }
 
 // Create a new SSL cert and domain binding
