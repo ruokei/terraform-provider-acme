@@ -13,6 +13,7 @@ const (
 	ZEROSSL_ERR_CHALLENGE_TOO_MANY_REQUESTS     = "429 ::POST :: https://acme.zerossl.com/v2/DV90/chall"
 	LETSENCRYPT_ERR_RATE_LIMITED                = "429 :: POST :: https://acme-staging-v02.api.letsencrypt.org/acme/new-acct"
 	ERR_TIME_LIMIT_EXCEEDED                     = "time limit exceeded"
+	ERR_SERVER_NO_RESPONSE                      = "net/http: timeout awaiting response headers"
 )
 
 func isAbleToRetry(errCode string) bool {
@@ -25,5 +26,6 @@ func isAbleToRetry(errCode string) bool {
 		strings.Contains(errCode, ZEROSSL_ERR_REVOKE_CERT_TOO_MANY_REQUESTS) ||
 		strings.Contains(errCode, ZEROSSL_ERR_CHALLENGE_TOO_MANY_REQUESTS) ||
 		strings.Contains(errCode, LETSENCRYPT_ERR_RATE_LIMITED) ||
-		strings.Contains(errCode, ERR_TIME_LIMIT_EXCEEDED)
+		strings.Contains(errCode, ERR_TIME_LIMIT_EXCEEDED) ||
+		strings.Contains(errCode, ERR_SERVER_NO_RESPONSE)
 }
